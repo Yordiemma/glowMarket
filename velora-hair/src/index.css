@@ -1,3 +1,71 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:root {
+  font-family: "Manrope", sans-serif;
+  color: #2d1820;
+  background:
+    radial-gradient(circle at top, rgba(255, 255, 255, 0.92), transparent 28%),
+    linear-gradient(180deg, #f9f1ec 0%, #f1dfd6 100%);
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  background:
+    radial-gradient(circle at top left, rgba(255, 255, 255, 0.85), transparent 25%),
+    linear-gradient(180deg, #f9f1ec 0%, #f1dfd6 100%);
+  color: #2d1820;
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+button,
+input,
+select {
+  font: inherit;
+}
+
+#root {
+  min-height: 100vh;
+}
+
+.glass-panel {
+  background: rgba(255, 248, 245, 0.55);
+  border: 1px solid rgba(109, 49, 64, 0.12);
+  box-shadow: 0 18px 45px rgba(91, 41, 54, 0.08);
+  backdrop-filter: blur(16px);
+}
+
+.section-kicker {
+  font-size: 0.75rem;
+  font-weight: 700;
+  letter-spacing: 0.35em;
+  text-transform: uppercase;
+  color: #94606c;
+}
+
+.section-title {
+  margin-top: 0.75rem;
+  max-width: 18ch;
+  font-family: "Cormorant Garamond", serif;
+  font-size: clamp(2.3rem, 5vw, 4rem);
+  line-height: 0.95;
+  color: #351920;
+}
+
+.product-card {
+  border: 1px solid rgba(109, 49, 64, 0.08);
+  border-radius: 2rem;
+  background: rgba(255, 248, 245, 0.82);
+  padding: 1.25rem;
+  box-shadow: 0 18px 45px rgba(91, 41, 54, 0.08);
+}
