@@ -62,7 +62,7 @@ export const products = [
     color: "Natural Black",
     rating: 4.9,
     reviews: 76,
-    badge: "Salon Favorite",
+    badge: "Texture Pick",
     description:
       "Three rich curly bundles with defined pattern, bounce, and softness made for glamorous installs.",
     details: [
@@ -96,25 +96,25 @@ export const products = [
   },
   {
     id: 5,
-    slug: "velora-custom-install-service",
-    name: "Velora Custom Install Service",
-    category: "Salon",
-    price: 189,
-    oldPrice: 229,
+    slug: "hd-lace-frontal-13x4",
+    name: "HD Lace Frontal 13x4",
+    category: "Frontals",
+    price: 179,
+    oldPrice: 219,
     image: imageOne,
-    length: "In Studio",
-    texture: "Custom Styling",
-    density: "Tailored",
-    color: "Your Match",
-    rating: 5,
-    reviews: 31,
-    badge: "Appointment",
+    length: '20"',
+    texture: "Natural Wave",
+    density: "Lightweight",
+    color: "Soft Natural Black",
+    rating: 4.8,
+    reviews: 43,
+    badge: "Lace Essential",
     description:
-      "Book a polished install with lace customization, styling, and finishing touches for your Velora units and bundles.",
+      "A soft HD frontal made for seamless installs, flexible parting, and a cleaner natural-looking finish.",
     details: [
-      "Consultation and install included",
-      "Hair prep and finishing style included",
-      "Perfect add-on for wig and bundle orders",
+      "Wide lace area for custom styling",
+      "Fine HD lace for a natural melt",
+      "Pairs perfectly with bundles and custom units",
     ],
   },
   {
@@ -158,8 +158,8 @@ export const categories = [
     description: "Natural-looking lace closures for a seamless everyday finish.",
   },
   {
-    name: "Salon",
-    description: "Install services and matching appointments for a complete look.",
+    name: "Frontals",
+    description: "Flexible lace frontals for fuller parting and polished installs.",
   },
 ]
 

@@ -5,7 +5,7 @@ export default function Footer() {
         <div>
           <p className="font-display text-3xl">Velora Hair</p>
           <p className="mt-4 text-sm leading-7 text-[#f8ede6]/80">
-            Luxury wigs, bundles, closures, and salon services curated for
+            Luxury wigs, bundles, closures, and frontals curated for
             softness, confidence, and everyday glam.
           </p>
         </div>

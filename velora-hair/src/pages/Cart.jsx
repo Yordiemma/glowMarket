@@ -50,7 +50,7 @@ export default function Cart() {
         <div className="mt-10 rounded-[2rem] bg-white/70 p-10 text-center shadow-[0_18px_45px_rgba(91,41,54,0.08)]">
           <p className="font-display text-4xl text-[#351920]">Your cart is empty</p>
           <p className="mt-4 text-sm leading-7 text-[#6b4e55]">
-            Start with a wig, bundle, closure, or salon service and come back
+            Start with a wig, bundle, closure, or frontal and come back
             here when you are ready to check out.
           </p>
           <Link

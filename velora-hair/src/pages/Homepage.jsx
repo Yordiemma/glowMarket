@@ -24,7 +24,7 @@ export default function Homepage() {
         <div className="flex items-end justify-between gap-6">
           <div>
             <p className="section-kicker">Curated Collections</p>
-            <h2 className="section-title">Made for wigs, installs, and soft glam styling</h2>
+            <h2 className="section-title">Made for wigs, frontals, and soft glam styling</h2>
           </div>
           <Link className="hidden text-sm font-semibold text-[#6d3140] md:block" to="/shop">
             View all products
@@ -79,7 +79,7 @@ export default function Homepage() {
             <h2 className="section-title">A luxury shop focused on hair products, not filler</h2>
             <p className="mt-4 max-w-2xl text-base leading-8 text-[#6a4850]">
               Every part of the store is centered on premium hair. Shop full
-              lace wigs, soft bundles, natural closures, and salon services in
+              lace wigs, soft bundles, natural closures, and frontals in
               one clean experience with flexible payment choices.
             </p>
           </div>

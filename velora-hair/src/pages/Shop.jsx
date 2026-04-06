@@ -10,11 +10,11 @@ export default function Shop() {
       <div className="flex flex-col gap-4 md:flex-row md:items-end md:justify-between">
         <div>
           <p className="section-kicker">Velora Collection</p>
-          <h1 className="section-title">Wigs, bundles, closures, and luxury services</h1>
+          <h1 className="section-title">Wigs, bundles, closures, and frontals</h1>
         </div>
         <p className="max-w-xl text-sm leading-7 text-[#6b4e55]">
           Shop every texture from polished straight styles to loose waves and
-          custom installs, all powered by local product data in the app.
+          clean lace pieces, all powered by local product data in the app.
         </p>
       </div>
 
