@@ -17,7 +17,13 @@ export default function SignIn() {
     event.preventDefault();
     setError("");
     setLoading(true);
-    const { error: signInError } = await createClient().auth.signInWithPassword({ email, password });
+    let signInError: { message: string } | null = null;
+    try {
+      const result = await createClient().auth.signInWithPassword({ email, password });
+      signInError = result.error;
+    } catch (caughtError) {
+      signInError = caughtError instanceof Error ? caughtError : new Error("Unable to start sign in.");
+    }
     if (signInError) {
       setError(signInError.message);
       setLoading(false);
@@ -28,5 +34,28 @@ export default function SignIn() {
     router.refresh();
   }
 
-  return <main className="simple-auth"><BrandMark/><form onSubmit={submit}><p className="kicker">SALON ADMIN</p><h1>Welcome back.</h1><p className="muted">Sign in to manage your storefront and orders.</p><label>Email<input type="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@salon.se"/></label><label>Password<input type="password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="Your password"/></label>{error && <p className="form-error">{error}</p>}<button className="button button-dark full" disabled={loading}>{loading ? "Signing in…" : "Sign in"}</button><p className="center muted">New to GlowMarket? <Link href="/register">Register your salon</Link></p></form></main>;
+  return <main className="sign-in-page">
+    <aside className="sign-in-intro">
+      <BrandMark/>
+      <div className="sign-in-copy">
+        <p className="kicker">SALON PORTAL</p>
+        <h2>Sign in to<br/><em>GlowMarket.</em></h2>
+        <p>Access is limited to registered salon accounts.</p>
+      </div>
+    </aside>
+    <section className="sign-in-content">
+      <p className="sign-in-register">New salon? <Link href="/register">Register</Link></p>
+      <form className="sign-in-form" onSubmit={submit}>
+        <p className="kicker">SALON SIGN IN</p>
+        <h1>Welcome back.</h1>
+        <p className="muted">Enter the email and password connected to your salon account.</p>
+        <label htmlFor="email">Email</label>
+        <input id="email" type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@salon.se"/>
+        <label htmlFor="password">Password</label>
+        <input id="password" type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="Your password"/>
+        {error && <p className="form-error sign-in-error" role="alert">{error}</p>}
+        <button className="button button-dark full sign-in-submit" disabled={loading}>{loading ? "Signing in…" : "Sign in"}</button>
+      </form>
+    </section>
+  </main>;
 }

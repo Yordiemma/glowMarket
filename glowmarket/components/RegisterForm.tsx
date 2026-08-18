@@ -27,24 +27,31 @@ export function RegisterForm() {
     event.preventDefault();
     setError("");
     setSubmitting(true);
-    const supabase = createClient();
-    const { data, error: authError } = await supabase.auth.signUp({
-      email,
-      password,
-      options: { data: {
-        organisation_number: org,
-        salon_name: salonName,
-        city,
-        address,
-        description,
-      } },
-    });
+    let data;
+    let authError: { message: string } | null = null;
+    try {
+      const result = await createClient().auth.signUp({
+        email,
+        password,
+        options: { data: {
+          organisation_number: org,
+          salon_name: salonName,
+          city,
+          address,
+          description,
+        } },
+      });
+      data = result.data;
+      authError = result.error;
+    } catch (caughtError) {
+      authError = caughtError instanceof Error ? caughtError : new Error("Unable to create account.");
+    }
     if (authError) {
       setError(authError.message);
       setSubmitting(false);
       return;
     }
-    if (data.session) {
+    if (data?.session) {
       router.push("/dashboard");
       router.refresh();
     } else {
