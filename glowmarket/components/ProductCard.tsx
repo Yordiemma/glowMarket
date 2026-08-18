@@ -1,14 +1,3 @@
-import Link from "next/link";
-import { formatSek, Product } from "@/lib/demo-data";
-
-export function ProductCard({ product }: { product: Product }) {
-  return <article className="product-card">
-    <div className="product-art" style={{ background: `linear-gradient(145deg, ${product.accent}, ${product.tone})` }}>
-      <span>{product.category}</span><div className="bottle"><i /></div>
-      <button aria-label={`Save ${product.name}`}>♡</button>
-    </div>
-    <p className="eyebrow">{product.salon}</p>
-    <h3>{product.name}</h3>
-    <div className="product-meta"><strong>{formatSek(product.price)}</strong><Link href="/salon/nordic-glow">View product →</Link></div>
-  </article>;
-}
+import Link from"next/link";import type{CatalogProduct}from"@/lib/catalog";
+const sek=(ore:number)=>new Intl.NumberFormat("sv-SE",{style:"currency",currency:"SEK"}).format(ore/100);
+export function ProductCard({product}:{product:CatalogProduct}){const image=product.image_path&&`${process.env.NEXT_PUBLIC_SUPABASE_URL}/storage/v1/object/public/product-images/${product.image_path}`;return <article className="product-card"><div className="product-art catalog-art" style={image?{backgroundImage:`url(${image})`}:undefined}><span>{product.category}</span>{!image&&<div className="bottle"><i/></div>}</div><p className="eyebrow">{product.salon_name}</p><h3>{product.name}</h3><p className="product-description">{product.description}</p><div className="product-meta"><strong>{sek(product.price_amount)}</strong><Link href={`/salon/${product.salon_slug}`}>View product →</Link></div></article>}

@@ -38,19 +38,19 @@ export default function SignIn() {
     <aside className="sign-in-intro">
       <BrandMark/>
       <div className="sign-in-copy">
-        <p className="kicker">SALON PORTAL</p>
+        <p className="kicker">BEAUTY BUSINESS PORTAL</p>
         <h2>Sign in to<br/><em>GlowMarket.</em></h2>
-        <p>Access is limited to registered salon accounts.</p>
+        <p>Access is limited to registered beauty business accounts.</p>
       </div>
     </aside>
     <section className="sign-in-content">
-      <p className="sign-in-register">New salon? <Link href="/register">Register</Link></p>
+      <p className="sign-in-register">New seller? <Link href="/register">Create your store</Link></p>
       <form className="sign-in-form" onSubmit={submit}>
-        <p className="kicker">SALON SIGN IN</p>
+        <p className="kicker">SELLER SIGN IN</p>
         <h1>Welcome back.</h1>
-        <p className="muted">Enter the email and password connected to your salon account.</p>
+        <p className="muted">Enter the email and password connected to your beauty business account.</p>
         <label htmlFor="email">Email</label>
-        <input id="email" type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@salon.se"/>
+        <input id="email" type="email" autoComplete="email" required value={email} onChange={e => setEmail(e.target.value)} placeholder="you@business.se"/>
         <label htmlFor="password">Password</label>
         <input id="password" type="password" autoComplete="current-password" required value={password} onChange={e => setPassword(e.target.value)} placeholder="Your password"/>
         {error && <p className="form-error sign-in-error" role="alert">{error}</p>}
