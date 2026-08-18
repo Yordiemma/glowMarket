@@ -21,7 +21,7 @@ Then open `http://localhost:3000`.
 
 ## MVP boundaries
 
-Authentication, database persistence, payouts, checkout, image uploads, and official business-registry verification are demo UI only. Production requires backend integrations and must not treat the local organisation-number format check as legal verification.
+Supabase authentication and the initial database migration are included. Apply `supabase/migrations/202608180001_initial_mvp.sql` to the connected project before testing registration. Bolagsverket, BankID, signatory verification, payouts, checkout, and image uploads still require provider integrations. The local organisation-number check is format validation only and is never legal verification.
 
 Visit `/register` for onboarding, `/sign-in` for salon login, `/dashboard` for admin tools, and `/marketplace` for the customer experience.
 
