@@ -3,22 +3,20 @@ import { zodTextFormat } from "openai/helpers/zod";
 import { NextRequest, NextResponse } from "next/server";
 import { generatedProductSchema, productInputSchema } from "@/lib/ai-product";
 import { takeAiGenerationSlot } from "@/lib/rate-limit";
-import { createClient as createSupabaseClient } from "@/lib/supabase/server";
+import { getSellerAccess, localSellerBypassEnabled } from "@/lib/seller-access";
 
 export const runtime = "nodejs";
 
-function localBypassEnabled() {
-  return process.env.NODE_ENV === "development" && process.env.LOCAL_AUTH_BYPASS === "true";
-}
-
 export async function POST(request: NextRequest) {
-  const localBypass = localBypassEnabled();
+  const localBypass = localSellerBypassEnabled();
   let userId: string | undefined;
   if (!localBypass) {
-    const supabase = await createSupabaseClient();
-    const { data: { user } } = await supabase.auth.getUser();
-    if (!user) return NextResponse.json({ error: "Please sign in to use AI Studio." }, { status: 401 });
-    userId = user.id;
+    const access = await getSellerAccess();
+    if (!access) return NextResponse.json({ error: "Please sign in to use AI Studio." }, { status: 401 });
+    if (!access.emailConfirmed) return NextResponse.json({ error: "Confirm your email before using AI Studio." }, { status: 403 });
+    if (access.verificationStatus !== "verified") return NextResponse.json({ error: "Your beauty business must be verified before using AI Studio." }, { status: 403 });
+    if (access.aiSubscriptionStatus !== "active") return NextResponse.json({ error: "An active AI subscription is required to generate product content." }, { status: 402 });
+    userId = access.userId;
   }
 
   const forwardedFor = request.headers.get("x-forwarded-for")?.split(",")[0]?.trim();

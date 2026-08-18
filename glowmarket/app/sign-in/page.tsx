@@ -5,6 +5,7 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { BrandMark } from "@/components/BrandMark";
 import { createClient } from "@/lib/supabase/client";
+import { friendlyAuthMessage } from "@/lib/auth-message";
 
 export default function SignIn() {
   const router = useRouter();
@@ -25,7 +26,7 @@ export default function SignIn() {
       signInError = caughtError instanceof Error ? caughtError : new Error("Unable to start sign in.");
     }
     if (signInError) {
-      setError(signInError.message);
+      setError(friendlyAuthMessage(signInError, "sign-in"));
       setLoading(false);
       return;
     }
