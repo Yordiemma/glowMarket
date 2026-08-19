@@ -10,12 +10,14 @@ export function SiteHeader() {
       <BrandMark />
       <nav>
         <Link href="/#how">How it works</Link>
+        <Link href="/#pricing">Pricing</Link>
         <Link href="/marketplace">Products</Link>
         <Link href="/register">Start selling</Link>
       </nav>
       <div className="header-actions">
         {showDeveloperDashboard && <Link className="dev-dashboard-link" href="/dashboard"><span className="nav-full">Dashboard</span><span className="nav-short">Dash</span> <small>DEV</small></Link>}
         <Link className="text-link" href="/sign-in">Sign in</Link>
+        <Link className="text-link" href="/cart">Cart</Link>
         <Link className="button button-dark button-small" href="/register"><span className="nav-full">Create your store</span><span className="nav-short">Register</span></Link>
       </div>
     </header>

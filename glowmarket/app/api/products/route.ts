@@ -11,7 +11,7 @@ export async function GET() {
   if (!access) return NextResponse.json({ error: "Please sign in." }, { status: 401 });
   if (!access.businessId) return NextResponse.json({ products: [] });
   const supabase = await createClient();
-  const { data, error } = await supabase.from("products").select("id,name,brand,category,price_amount,stock_quantity,status,updated_at").eq("business_id", access.businessId).order("updated_at", { ascending: false });
+  const { data, error } = await supabase.from("products").select("id,name,brand,category,price_amount,stock_quantity,status,image_path,updated_at").eq("business_id", access.businessId).order("updated_at", { ascending: false });
   if (error) return NextResponse.json({ error: "Products could not be loaded." }, { status: 500 });
   return NextResponse.json({ products: data ?? [] });
 }
@@ -42,6 +42,13 @@ export async function POST(request: NextRequest) {
   }
 
   const input = parsed.data;
+  const imageMatch = input.imageDataUrl.match(/^data:(image\/(?:jpeg|png|webp));base64,(.+)$/);
+  if (!imageMatch) return NextResponse.json({ error: "Use a JPEG, PNG, or WebP product image." }, { status: 400 });
+  const extension = imageMatch[1] === "image/jpeg" ? "jpg" : imageMatch[1].split("/")[1];
+  const imagePath = `${membership.business_id}/${crypto.randomUUID()}.${extension}`;
+  const imageBytes = Buffer.from(imageMatch[2], "base64");
+  const { error: uploadError } = await supabase.storage.from("product-images").upload(imagePath, imageBytes, { contentType: imageMatch[1], upsert: false });
+  if (uploadError) return NextResponse.json({ error: "The product image could not be uploaded." }, { status: 500 });
   const { data: product, error } = await supabase.from("products").insert({
     business_id: membership.business_id,
     name: input.generated.title,
@@ -52,13 +59,15 @@ export async function POST(request: NextRequest) {
     usage: input.generated.usage,
     tags: input.generated.tags,
     size: input.size,
-    suitable_for: input.suitableFor,
-    ingredients: input.ingredients,
+    suitable_for: input.generated.suitableFor,
+    ingredients: input.generated.ingredients,
+    image_path: imagePath,
     price_amount: Math.round(input.price * 100),
     stock_quantity: input.stock,
     status: "draft",
   }).select("id").single();
   if (error) {
+    await supabase.storage.from("product-images").remove([imagePath]);
     return NextResponse.json({ error: "The draft could not be saved." }, { status: 500 });
   }
   return NextResponse.json({ saved: true, productId: product.id });

@@ -15,7 +15,6 @@ export async function POST(request: NextRequest) {
     if (!access) return NextResponse.json({ error: "Please sign in to use AI Studio." }, { status: 401 });
     if (!access.emailConfirmed) return NextResponse.json({ error: "Confirm your email before using AI Studio." }, { status: 403 });
     if (access.verificationStatus !== "verified") return NextResponse.json({ error: "Your beauty business must be verified before using AI Studio." }, { status: 403 });
-    if (access.aiSubscriptionStatus !== "active") return NextResponse.json({ error: "An active AI subscription is required to generate product content." }, { status: 402 });
     userId = access.userId;
   }
 
@@ -47,7 +46,10 @@ export async function POST(request: NextRequest) {
           content: `You prepare accurate beauty product listings for a Swedish beauty marketplace.
 Use only seller-provided facts. Never invent ingredients, size, certifications, test results, medical claims, or health claims. Never say a product treats or cures a condition. If a benefit or usage detail is unsupported, omit it. Write in the requested language. Return concise marketplace copy for seller review; it will not be auto-published.`,
         },
-        { role: "user", content: JSON.stringify(parsedInput.data) },
+        { role: "user", content: [
+          { type: "input_text", text: `Create the listing from this product photo and verified seller facts. Product: ${parsedInput.data.productName}. Brand: ${parsedInput.data.brand}. Size: ${parsedInput.data.size}. Category: ${parsedInput.data.category}. Optional notes: ${parsedInput.data.productHint || "none"}. Language: ${parsedInput.data.language}. Never contradict or embellish these facts. If ingredients, certifications, benefits, or usage are not clearly visible or supplied, return an empty value instead of guessing.` },
+          { type: "input_image", image_url: parsedInput.data.imageDataUrl, detail: "high" },
+        ] },
       ],
       text: { format: zodTextFormat(generatedProductSchema, "product_listing") },
     });
