@@ -20,6 +20,7 @@ export function RegisterForm({ demoMode = false }: { demoMode?: boolean }) {
   async function submit(event: FormEvent) {
     event.preventDefault();
     setError("");
+    const normalizedEmail = email.trim().toLowerCase();
     if (password !== confirmPassword) return setError("The passwords do not match.");
     if (password.length < 8) return setError("Password must be at least 8 characters.");
     if (demoMode) {
@@ -33,7 +34,7 @@ export function RegisterForm({ demoMode = false }: { demoMode?: boolean }) {
       const readiness = await fetch("/api/auth/readiness", { cache: "no-store" });
       if (!readiness.ok) throw new Error("Seller registration is being set up. Please try again shortly.");
       const { data, error: signUpError } = await createClient().auth.signUp({
-        email,
+        email: normalizedEmail,
         password,
         options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/onboarding`, data: { account_type: "seller" } },
       });
@@ -47,7 +48,7 @@ export function RegisterForm({ demoMode = false }: { demoMode?: boolean }) {
 
   async function resendConfirmation() {
     setError(""); setResent(false); setResending(true);
-    const { error: resendError } = await createClient().auth.resend({ type: "signup", email, options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/onboarding` } });
+    const { error: resendError } = await createClient().auth.resend({ type: "signup", email: email.trim().toLowerCase(), options: { emailRedirectTo: `${window.location.origin}/auth/callback?next=/onboarding` } });
     if (resendError) setError(friendlyAuthMessage(resendError, "register")); else setResent(true);
     setResending(false);
   }
